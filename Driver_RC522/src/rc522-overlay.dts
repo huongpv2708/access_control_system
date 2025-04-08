@@ -1,0 +1,32 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2711,bcm2835";
+
+    fragment@0 {
+        target = <&spi0>;
+        __overlay__ {
+            status = "okay";
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            rc522: rc522@0 {
+                compatible = "nxp,rc522";
+                reg = <0>;  // For using hardware chip select line CE0
+                spi-max-frequency = <5000000>; 
+                spi-word-bits = <8>;
+                reset-gpios = <&gpio 24 0>;              
+                status = "okay";
+            };
+        };
+    };
+
+    fragment@1 {
+        target = <&spidev0>;
+        __overlay__ {
+            status = "disabled";
+        };
+    };   
+};
+
